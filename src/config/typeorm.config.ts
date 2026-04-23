@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Product } from '../products/entities/product.entity';
+import { Category } from '../categories/entities/category.entity';
 import { User } from '../users/entities/user.entity';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -9,6 +10,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USER || 'your_username',
   password: process.env.DB_PASS || 'your_password',
   database: process.env.DB_NAME || 'your_database_name',
-  entities: [Product, User],
+  entities: [Product, Category, User],
   synchronize: true, // Solo en desarrollo
 };
