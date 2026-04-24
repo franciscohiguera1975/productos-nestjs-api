@@ -1,22 +1,82 @@
 # Productos NestJS API
 
-Este proyecto es una API RESTful básica para la gestión de productos, construida con NestJS y TypeORM.
+Este proyecto es una API RESTful para la gestión de productos y clientes, construida con **NestJS** y **TypeORM**.
 
-Fue generado en el FLISOL 2026.
-linea agregada para testear en el fliso
+> 🎉 **Desarrollado y presentado en el [FLISOL 2026](https://flisol.info/)** — Festival Latinoamericano de Instalación de Software Libre.
 
 **Repositorio:** https://github.com/franciscohiguera1975/productos-nestjs-api
 
-## Características
+---
 
-*   CRUD completo para la gestión de productos.
-*   API RESTful siguiendo principios REST.
-*   Integración con base de datos mediante TypeORM.
-*   Desarrollado con TypeScript para mayor robustez.
+## Módulos disponibles
+
+| Módulo | Descripción |
+|--------|-------------|
+| **Productos** | CRUD completo para gestión de productos con categorías |
+| **Categorías** | Clasificación de productos |
+| **Tipo de Envío** | Gestión de modalidades de envío |
+| **Usuarios** | Gestión de usuarios y autenticación |
+| **Clientes** | CRUD completo para gestión de clientes *(FLISOL 2026)* |
+
+---
+
+## Módulo de Clientes *(creado en el FLISOL 2026)*
+
+Este módulo fue construido en vivo durante la sesión del **FLISOL 2026** como demostración práctica del desarrollo de APIs con NestJS siguiendo principios SOLID y arquitectura limpia.
+
+### Entidad `Cliente`
+
+Campos principales:
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `id` | `number` | Identificador autoincremental |
+| `nombre` | `string` | Nombre del cliente (obligatorio) |
+| `apellido` | `string` | Apellido del cliente (obligatorio) |
+| `email` | `string` | Email único del cliente (obligatorio) |
+| `telefono` | `string` | Teléfono de contacto (opcional) |
+| `direccion` | `string` | Dirección (opcional) |
+| `isActive` | `boolean` | Estado activo/inactivo |
+| `createdAt` | `Date` | Fecha de creación |
+| `updatedAt` | `Date` | Fecha de última actualización |
+
+### Endpoints del CRUD de Clientes
+
+| Método | Ruta | Descripción | Respuesta |
+|--------|------|-------------|-----------|
+| `POST` | `/clientes` | Crear un nuevo cliente | `201 Created` |
+| `GET` | `/clientes` | Listar todos los clientes activos | `200 OK` |
+| `GET` | `/clientes/:id` | Obtener un cliente por ID | `200 OK` / `404` |
+| `PATCH` | `/clientes/:id` | Actualizar parcialmente un cliente | `200 OK` / `404` |
+| `DELETE` | `/clientes/:id` | Eliminar un cliente | `204 No Content` / `404` |
+| `PATCH` | `/clientes/:id/deactivate` | Desactivar un cliente (soft) | `200 OK` / `404` |
+
+### Ejemplo de body para crear un cliente
+
+```json
+{
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "email": "juan.perez@email.com",
+  "telefono": "0999999999",
+  "direccion": "Av. Siempre Viva 123"
+}
+```
+
+---
+
+## Características generales
+
+- CRUD completo para productos y clientes.
+- API RESTful con principios REST.
+- Validación de datos con `class-validator`.
+- Integración con base de datos mediante TypeORM.
+- Arquitectura modular siguiendo principios SOLID.
+- Desarrollado con TypeScript para mayor robustez.
+
+---
 
 ## Instalación
-
-Para poner en marcha este proyecto, sigue los siguientes pasos:
 
 1.  **Clona el repositorio:**
     ```bash
@@ -28,81 +88,55 @@ Para poner en marcha este proyecto, sigue los siguientes pasos:
     npm install
     ```
 3.  **Configura las variables de entorno:**
-    Crea un archivo `.env` en la raíz del proyecto basado en el ejemplo `.env.example` (si existe) o con las siguientes variables:
+    Crea un archivo `.env` basado en `.env.example`:
 
     ```env
-    # Configuración de la Base de Datos
     DATABASE_TYPE=postgres
     DATABASE_HOST=localhost
     DATABASE_PORT=5432
     DATABASE_USERNAME=your_username
     DATABASE_PASSWORD=your_password
     DATABASE_NAME=your_database_name
-
-    # Otras configuraciones (ej. puerto de la aplicación)
     PORT=3000
     ```
-    Asegúrate de reemplazar `your_username`, `your_password`, y `your_database_name` con tus credenciales de PostgreSQL.
 
-4.  **Ejecuta las migraciones de la base de datos:**
-    ```bash
-    npm run typeorm migration:run
-    ```
-    Esto creará las tablas necesarias en tu base de datos.
-
-5.  **Inicia la aplicación en modo desarrollo:**
+4.  **Inicia la aplicación en modo desarrollo:**
     ```bash
     npm run start:dev
     ```
-    La API estará disponible en `http://localhost:3000` (o el puerto que hayas configurado).
+    La API estará disponible en `http://localhost:3000`.
 
-## Endpoints del CRUD de Productos
-
-Aquí se detallan los endpoints disponibles para interactuar con la API de productos:
-
-*   **`GET /products`**: Obtener todos los productos.
-    *   Respuesta: `200 OK` con un array de productos.
-*   **`GET /products/:id`**: Obtener un producto específico por su ID.
-    *   Parámetros: `id` (UUID)
-    *   Respuesta: `200 OK` con el objeto del producto, o `404 Not Found` si no existe.
-*   **`POST /products`**: Crear un nuevo producto.
-    *   Body: `{ "name": "string", "description": "string", "price": number }`
-    *   Respuesta: `201 Created` con el objeto del producto creado.
-*   **`PUT /products/:id`**: Actualizar un producto existente por su ID.
-    *   Parámetros: `id` (UUID)
-    *   Body: `{ "name"?: "string", "description"?: "string", "price"?: number }` (campos opcionales)
-    *   Respuesta: `200 OK` con el objeto del producto actualizado, o `404 Not Found`.
-*   **`DELETE /products/:id`**: Eliminar un producto por su ID.
-    *   Parámetros: `id` (UUID)
-    *   Respuesta: `200 OK` (sin contenido), o `404 Not Found`.
+---
 
 ## Ejecución de Tests
-
-Para ejecutar los tests automatizados del proyecto:
 
 ```bash
 npm run test
 ```
 
+---
+
 ## Tecnologías Utilizadas
 
-*   [NestJS](https://nestjs.com/) - Framework progresivo de Node.js para construir aplicaciones del lado del servidor.
-*   [TypeORM](https://typeorm.io/) - ORM para TypeScript y JavaScript (ES7, ES6, ES5).
-*   [PostgreSQL](https://www.postgresql.org/) - Sistema de gestión de bases de datos relacionales.
-*   [TypeScript](https://www.typescriptlang.org/) - Lenguaje de programación que se basa en JavaScript.
-*   [Docker](https://www.docker.com/) (Opcional, para entorno de desarrollo)
+- [NestJS](https://nestjs.com/) — Framework progresivo de Node.js.
+- [TypeORM](https://typeorm.io/) — ORM para TypeScript.
+- [PostgreSQL](https://www.postgresql.org/) — Base de datos relacional.
+- [TypeScript](https://www.typescriptlang.org/) — Lenguaje tipado.
+- [class-validator](https://github.com/typestack/class-validator) — Validación de DTOs.
+
+---
 
 ## Contribución
 
-¡Las contribuciones son bienvenidas! Si deseas mejorar este proyecto, por favor:
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
+3. Realiza tus cambios y asegúrate de que los tests pasen.
+4. Haz commit (`git commit -am 'feat: descripción del cambio'`).
+5. Sube tu rama (`git push origin feature/nueva-caracteristica`).
+6. Abre un Pull Request.
 
-1.  Haz un fork del repositorio.
-2.  Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
-3.  Realiza tus cambios y asegúrate de que los tests pasen.
-4.  Haz commit de tus cambios (`git commit -am 'feat: Añade nueva característica'`).
-5.  Sube tu rama (`git push origin feature/nueva-caracteristica`).
-6.  Abre un Pull Request.
+---
 
 ## Licencia
 
-Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+Este proyecto está bajo la licencia MIT.
